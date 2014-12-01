@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="common"/>
+	<buildpathentry kind="src" path="framework"/>
+	<buildpathentry kind="src" path="system"/>
+</buildpath>

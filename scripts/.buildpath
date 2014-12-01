@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="auto"/>
+	<buildpathentry kind="src" path="common"/>
+	<buildpathentry kind="src" path="core"/>
+	<buildpathentry kind="src" path="extend"/>
+	<buildpathentry kind="src" path="game"/>
+	<buildpathentry kind="src" path="manager"/>
+	<buildpathentry kind="src" path="netdefine"/>
+	<buildpathentry kind="src" path="predefine"/>
+	<buildpathentry kind="src" path="preload"/>
+	<buildpathentry kind="src" path="scenes"/>
+	<buildpathentry kind="src" path="sdk"/>
+	<buildpathentry kind="src" path="notification"/>
+	<buildpathentry exported="true" kind="con" path="org.eclipse.koneki.ldt.ExecutionEnvironmentContainer/lua/5.1"/>
+</buildpath>
