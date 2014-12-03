@@ -7036,7 +7036,7 @@ function f_user_info_manager:rBindAccountHandler( msg )
 		g_game.g_utilManager:showMsg("綁定成功")
 		send_lua_event(g_game.g_f_lua_game_event.F_SDK_BIND_ACCOUNT)
 	else
-		g_game.g_utilManager:showMsg("綁定失敗")
+		g_game.g_utilManager:showMsg("該賬號已綁定過，請嘗試更換帳號")
 	end
 end
 
