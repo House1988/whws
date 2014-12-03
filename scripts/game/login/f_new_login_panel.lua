@@ -53,6 +53,7 @@ function f_new_login_panel:layout_in_parent()
 	self.event_showChooseTypePanel = function()
 		if g_game.g_panelManager:isUiPanelShow("login_choose_type") == false then
 			local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
+			login_choose_type_panel:showFastLoginBtn()
 			g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
 		end
 	end

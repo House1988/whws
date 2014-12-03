@@ -53,3 +53,30 @@ function f_tw_login_choose_type_panel:initAllComponent()
 	end
 	self.m_componentTable["lct_google_btn"]:addHandleOfcomponentEvent(googleBtnOnClick, g_game.g_f_touch_event.F_TOUCH_UPINSIDE)
 end
+
+-- 显示快速登录按钮
+function f_tw_login_choose_type_panel:showFastLoginBtn(  )
+	--快速登录模拟
+	local fastLoginCallback = function (  )
+		local tip = "您将以遊客身份登入遊戲，在綁定帳號之前，刪除應用程式或變更裝置時，資料可能無法保留。为保障您的帳號安全，请尽快綁定facebook/gmail帳號。是否確定以遊客身份登入？"
+	 	g_game.g_utilManager:showAlertLayer(tip,function (  )
+	 		self:fastLoginAlter()
+	 	end)
+	end
+	self.m_componentTable["jld_nh_fastlogin_button"]:setVisible(true)
+	self.m_componentTable["jld_nh_fastlogin_button"]:addHandleOfcomponentEvent(fastLoginCallback, g_game.g_f_touch_event.F_TOUCH_UPINSIDE )
+end
+-- 快速登录发送消息
+function f_tw_login_choose_type_panel:fastLoginAlter(  )
+	local udid = g_game.g_system:getUUID()	
+	local loginResult = 
+	{
+		["result"] = 0, 
+		["account"] = DEBUG_SDK_TYPE.."_"..udid, 
+		["error_des"] = "",	
+		["userid"] = DEBUG_SDK_TYPE.."_"..udid,
+		["isFastLogin"] = true
+	}
+	send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
+	g_game.g_panelManager:removeUiPanel("login_choose_type")
+end

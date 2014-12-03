@@ -73,6 +73,18 @@ function createlogin_choose_type()
     lct_bottom_line:setPositionInContainer(cc.p(480,526))
     table_login_choose_type["lct_bottom_line"] = lct_bottom_line
 
+
+    local jld_nh_fastlogin_button = fc.FTextButton:create()
+    jld_nh_fastlogin_button:setSize(cc.size(144,42))
+    jld_nh_fastlogin_button:setAnchorPoint(cc.p(0.5,0.5))
+    jld_nh_fastlogin_button:setTextButtonImage("batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png")
+    jld_nh_fastlogin_button:setText("遊客登錄",cc.c3b(255,255,255))
+    jld_nh_fastlogin_button:setSelectActionEnbaled(true)
+    jld_nh_fastlogin_button:setVisible(false)
+    login_choose_type:appendComponent(jld_nh_fastlogin_button)
+    jld_nh_fastlogin_button:setPositionInContainer(cc.p(480,552))
+    table_login_choose_type["jld_nh_fastlogin_button"] = jld_nh_fastlogin_button
+
     return table_login_choose_type
 
 end
