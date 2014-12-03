@@ -194,7 +194,7 @@ function f_game_settings:bindAccountCallBack( paramTable )
 		local dataT = {}
 		dataT["account"] = paramTable["account"]
 		dataT["channel"] = DEBUG_SDK_TYPE
-		dataT["id"] 	 = paramTable["userid"]
+		dataT["id"] 	 = g_game.g_userInfoManager:getUserAccount()
 		self.tmpAccount = paramTable
 		g_game.g_netManager:send_message(g_network_message_type.CS_BIND_ACCOUNT, dataT)
 		send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING)
