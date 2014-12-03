@@ -3724,3 +3724,7 @@ function g_network_server_sendto_client.SC_WORLD_BOOS_USER_INFO(reciveMsg)
 
 end
 
+function g_network_server_sendto_client.SC_BIND_ACCOUNT(reciveMsg)
+--	g_network.registerMessage(g_neetwork_message_type.SC_BIND_ACCOUNT, call back function)
+
+end

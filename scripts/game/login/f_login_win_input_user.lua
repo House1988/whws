@@ -117,6 +117,18 @@ function FLuaLoginWinInputUser:setInputDoneCallback(callback)
 	self.m_input_done_callback = callback
 end
 
+-- 显示快速登录按钮
+function FLuaLoginWinInputUser:showFastLoginBtn( )
+	self.m_componentTable["jld_nh_fastlogin_button"]:setVisible(true)
+	self.m_componentTable["jld_nh_fastlogin_button"]:setPositionInContainer(cc.p(361,197.5))
+	self.m_componentTable["jld_nh_queding_button"]:setPositionInContainer(cc.p(161,197.5))
+end
+
+-- 设置快速登录输入后回调
+function FLuaLoginWinInputUser:setFastLoginCallBack( callback )
+	self.fase_login_callback = callback
+	self.m_componentTable["jld_nh_fastlogin_button"]:addHandleOfcomponentEvent(self.fase_login_callback, g_game.g_f_touch_event.F_TOUCH_UPINSIDE )
+end
 -------------------------------------------------------------------------------
 -- @function [parent=#FLuaLoginWinInputUser] showInput
 -- 重新设置input位置

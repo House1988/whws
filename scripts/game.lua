@@ -88,3 +88,39 @@ end
 function send_lua_event_param(luaEvent, paramTable)
 	g_game.g_eventManager:event_handler_param(luaEvent, paramTable)
 end
+function print_lua_table (lua_table, indent)
+    indent = indent or 0
+    for k, v in pairs(lua_table) do
+        if type(k) == "string" then
+            k = string.format("%q", k)
+        end
+        local szSuffix = ""
+        if type(v) == "table" then
+            szSuffix = "{"
+        end
+        local szPrefix = string.rep("    ", indent)
+        formatting = szPrefix.."["..k.."]".." = "..szSuffix
+        if type(v) == "table" then
+            print(formatting)
+            -- if #v > 20 then
+            --     print_lua_table(v[1], indent + 1)
+            -- else
+            --     print_lua_table(v, indent + 1)
+            -- end
+            print_lua_table(v, indent + 1)
+            print(szPrefix.."},")
+        else
+            local szValue = ""
+            if type(v) == "string" then
+                szValue = string.format("%q", v)
+            else
+                szValue = tostring(v)
+            end
+            print(formatting..szValue..",")
+        end
+    end
+    print("")
+end
+function printlua( str )
+    print("========     "..str.."       ===============")
+end

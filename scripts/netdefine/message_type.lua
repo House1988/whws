@@ -302,3 +302,5 @@ g_network_message_type.CS_WORLD_BOSS_FIGHT = 11111
 g_network_message_type.SC_WORLD_BOSS_FIGHT = 31111
 g_network_message_type.CS_WORLD_BOOS_USER_INFO = 11112
 g_network_message_type.SC_WORLD_BOOS_USER_INFO = 31112
+g_network_message_type.CS_BIND_ACCOUNT = 11000
+g_network_message_type.SC_BIND_ACCOUNT = 31000

@@ -313,28 +313,30 @@ end
 -- 显示网络错误描述框
 -------------------------------------------------------------------------------
 function FLuaUtilManager:showNetworkErrorMessagePanel(type)
-  	--返回登录
-  	local returnTologin = function()
-  		g_game.m_isDisconnectTrigger = false
-  		g_game.startup()
+	send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING )
+  	g_game.g_netManager:reconnect()
+ --  	--返回登录
+ --  	local returnTologin = function()
+ --  		g_game.m_isDisconnectTrigger = false
+ --  		g_game.startup()
   		
-  		--数据分析sdk
-  		send_lua_event(g_game.g_f_lua_game_event.F_LUA_DATA_USER_LOGOUT)
-  	end
-  	--重新链接
-  	local reconnect = function()
-		send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING )
-  		g_game.g_netManager:reconnect()
-  	end
+ --  		--数据分析sdk
+ --  		send_lua_event(g_game.g_f_lua_game_event.F_LUA_DATA_USER_LOGOUT)
+ --  	end
+ --  	--重新链接
+ --  	local reconnect = function()
+	-- 	send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING )
+ --  		g_game.g_netManager:reconnect()
+ --  	end
 
-	send_lua_event(g_game.g_f_lua_game_event.F_LUA_FORCE_CLOSE_NETWORK_LOADING)
+	-- send_lua_event(g_game.g_f_lua_game_event.F_LUA_FORCE_CLOSE_NETWORK_LOADING)
 
-	self.m_networkErrorPanel = require("scripts.game.main.common.f_network_error_panel").new()
-	local msg =  g_game.g_dictConfigManager:getLanTextById(g_game.g_f_error_msg[type])
-	self.m_networkErrorPanel:setShowText(msg)	
-	self.m_networkErrorPanel:addCallback(returnTologin)
-	self.m_networkErrorPanel:addCallback(reconnect)
-	self.m_networkErrorPanel:createReconnectPopup()
+	-- self.m_networkErrorPanel = require("scripts.game.main.common.f_network_error_panel").new()
+	-- local msg =  g_game.g_dictConfigManager:getLanTextById(g_game.g_f_error_msg[type])
+	-- self.m_networkErrorPanel:setShowText(msg)	
+	-- self.m_networkErrorPanel:addCallback(returnTologin)
+	-- self.m_networkErrorPanel:addCallback(reconnect)
+	-- self.m_networkErrorPanel:createReconnectPopup()
 end
 
 -------------------------------------------------------------------------------
@@ -890,4 +892,29 @@ function FLuaUtilManager:setUserSettings()
 	
 end
 
+-- 通用提示板   -- 确定   返回
+function FLuaUtilManager:showAlertLayer( text,okCallBack,cancelCallBack )
+	local layer = require("scripts.game.layers.alertlayer").new(text)
+	g_game.g_panelManager:showUiPanel(layer,"login_create_role")
+	-- g_game.g_director:getRunningScene():add_panel_to_layer(layer,5)
+	local closeFunc = function (  )
+		g_game.g_panelManager:removeUiPanel("login_create_role")
+	end
+	if okCallBack then
+		layer:setOkCallBack(function (  )
+			okCallBack()
+			closeFunc()
+		end)
+	else
+		layer:setOkCallBack(closeFunc)
+	end
+	if cancelCallBack then
+		layer:setCancelBack(function (  )
+			cancelCallBack()
+			closeFunc()
+		end)
+	else
+		layer:setCancelBack(closeFunc)
+	end
+end
 return FLuaUtilManager

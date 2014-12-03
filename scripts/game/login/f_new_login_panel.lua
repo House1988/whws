@@ -70,7 +70,7 @@ function f_new_login_panel:layout_in_parent()
 	self.event_loginCallback = function(paramTable)
 		self.m_loginInfo = paramTable
     	local delayLoginCallback = function()
-			send_lua_event(g_game.g_f_lua_game_event.F_LUA_CLOSE_NETWORK_LOADING)	
+			send_lua_event(g_game.g_f_lua_game_event.F_LUA_CLOSE_NETWORK_LOADING)
 			self:loginSdkCallback(self.m_loginInfo)
     	end
 		g_game.g_scheduler.performWithDelayGlobal(delayLoginCallback, 1.0)
@@ -251,10 +251,14 @@ function f_new_login_panel:setLoginAccount(account, userUUID)
 	
 	self.m_user_account = account
 	self.m_user_uuid = userUUID
-
-	self.m_componentTable["user_name"]:setString(self.m_user_account)
+	if self.m_user_account == DEBUG_SDK_TYPE.."_"..g_game.g_system:getUUID() then
+		self.m_componentTable["user_name"]:setString("遊客模式")
+	else
+		self.m_componentTable["user_name"]:setString(self.m_user_account)
+	end
 	
 end
+
 
 -------------------------------------------------------------------------------
 -- @function [parent=#f_new_login_panel] setServerText

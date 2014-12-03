@@ -187,6 +187,17 @@ function createpublic_settings()
     btn_effect:setPositionInContainer(cc.p(322,192.5))
     table_public_settings["btn_effect"] = btn_effect
 
+    local fastlogin_button = fc.FTextButton:create()
+    fastlogin_button:setSize(cc.size(144,51))
+    fastlogin_button:setAnchorPoint(cc.p(0.5,0.5))
+    fastlogin_button:setTextButtonImage("batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png")
+    fastlogin_button:setText("綁定帳號",cc.c3b(255,255,255))
+    fastlogin_button:setSelectActionEnbaled(true)
+    fastlogin_button:setVisible(false)
+    pp3_bottom:appendComponent(fastlogin_button)
+    fastlogin_button:setPositionInContainer(cc.p(266,252))
+    table_public_settings["fastlogin_button"] = fastlogin_button
+
     return table_public_settings
 
 end

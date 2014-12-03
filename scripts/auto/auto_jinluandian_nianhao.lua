@@ -84,6 +84,18 @@ function createjinluandian_nianhao()
     jld_nh_queding_button:setPositionInContainer(cc.p(261,197.5))
     table_jinluandian_nianhao["jld_nh_queding_button"] = jld_nh_queding_button
 
+    local jld_nh_fastlogin_button = fc.FTextButton:create()
+    jld_nh_fastlogin_button:setSize(cc.size(144,51))
+    jld_nh_fastlogin_button:setAnchorPoint(cc.p(0.5,0.5))
+    jld_nh_fastlogin_button:setTextButtonImage("batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png","batch_ui/goumai_anniu.png")
+    jld_nh_fastlogin_button:setText("快速登录",cc.c3b(255,255,255))
+    jld_nh_fastlogin_button:setSelectActionEnbaled(true)
+    jld_nh_fastlogin_button:setVisible(false)
+    jinluandian_nianhao:appendComponent(jld_nh_fastlogin_button)
+    jld_nh_fastlogin_button:setPositionInContainer(cc.p(261,197.5))
+    table_jinluandian_nianhao["jld_nh_fastlogin_button"] = jld_nh_fastlogin_button
+
+
     local jld_nh_input = fc.FInput:create()
     jld_nh_input:setSizeAndBackgroundImage(cc.size(214,48),"","","",false)
     jld_nh_input:setAnchorPoint(cc.p(0.5,0.5))

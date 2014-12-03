@@ -1996,3 +1996,8 @@ function g_network_client_sendto_server.CS_WORLD_BOOS_USER_INFO(sendMsg)
 
 end
 
+-- send message to server
+function g_network_client_sendto_server.CS_BIND_ACCOUNT(sendMsg)
+	g_network.send_message(g_network_message_type.CS_BIND_ACCOUNT, sendMsg)
+
+end

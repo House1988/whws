@@ -176,7 +176,6 @@ end
 -------------------------------------------------------------------------------
 function f_android_tw_google_sdk:show_sdk_view(loginType, isDefault)
 	send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING)
-	
 	local loginCallback = function(resStr)
 		local resultInfo = self.json.decode(resStr)
 		self.m_user_info["flag"] = resultInfo["flag"]

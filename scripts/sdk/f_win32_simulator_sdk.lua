@@ -88,12 +88,34 @@ function f_win32_simulator_sdk:show_sdk_view()
 		send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
 		self:hide_sdk_view()
 	end
-	
-	winInputPanel:setInputDoneCallback(loginSuccessCallback)		
+	--快速登录模拟
+	local fastLoginCallback = function (  )
+		local tip = "您将以遊客身份登入遊戲，在綁定帳號之前，刪除應用程式或變更裝置時，資料可能無法保留。为保障您的帳號安全，请尽快綁定facebook/gmail帳號。是否確定以遊客身份登入？"
+	 	g_game.g_utilManager:showAlertLayer(tip,function (  )
+	 		self:fastLoginAlter()
+	 	end)
+		
+	end
+	winInputPanel:showFastLoginBtn()
+	winInputPanel:setInputDoneCallback(loginSuccessCallback)	
+	winInputPanel:setFastLoginCallBack(fastLoginCallback)	
 	g_game.g_panelManager:showUiPanel(winInputPanel,"login_win_input")
 	winInputPanel:showInput()
 end
 
+function f_win32_simulator_sdk:fastLoginAlter(  )
+	local udid = g_game.g_system:getUUID()	
+	local loginResult = 
+	{
+		["result"] = 0, 
+		["account"] = DEBUG_SDK_TYPE.."_"..udid, 
+		["error_des"] = "",	
+		["userid"] = DEBUG_SDK_TYPE.."_"..udid,
+		["isFastLogin"] = true
+	}
+	send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
+	self:hide_sdk_view()
+end
 -------------------------------------------------------------------------------
 -- @function [parent=#f_win32_simulator_sdk] hide_sdk_view
 -- 隐藏sdk界面

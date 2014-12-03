@@ -1162,6 +1162,12 @@ function f_user_info_manager:ctor()
 	end
 	g_game.g_netManager:registerMessage(g_network_message_type.SC_UPDATE_GUIDE_STEP,recordGuidleStep)	
 	
+	--服务器返回-------绑定账户
+	local receiveBindInfo = function(msg)
+		self:rBindAccountHandler(msg)
+	end
+	g_game.g_netManager:registerMessage(g_network_message_type.SC_BIND_ACCOUNT, receiveBindInfo)
+
 	
 	--服务器动态配置信息接收
 	local receiveServerConfigInfo = function(msg)
@@ -7020,6 +7026,18 @@ function f_user_info_manager:requestSaodang(areaid,stageid,levelid,times)
 	
 	g_game.g_netManager:send_message(g_network_message_type.CS_LEVEL_SWEEP, dataT)
 	send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING)
+end
+
+
+-- 服务器返回-------绑定账户
+function f_user_info_manager:rBindAccountHandler( msg )
+	send_lua_event(g_game.g_f_lua_game_event.F_LUA_CLOSE_NETWORK_LOADING)
+	if msg["result"] == 1 then
+		g_game.g_utilManager:showMsg("綁定成功")
+		send_lua_event(g_game.g_f_lua_game_event.F_SDK_BIND_ACCOUNT)
+	else
+		g_game.g_utilManager:showMsg("綁定失敗")
+	end
 end
 
 -------------------------------------------------

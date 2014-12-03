@@ -132,7 +132,93 @@ function f_game_settings:initAllComponent()
 		send_lua_event(g_game.g_f_lua_game_event.F_LUA_EFFECT_ANNIU)
 	end
 	self.m_componentTable["panel2"]:addHandleOfcomponentEvent(effectBtn, g_game.g_f_touch_event.F_TOUCH_UPINSIDE )
- 
+ 	
+	if g_game.g_userInfoManager:getUserAccount() == DEBUG_SDK_TYPE.."_"..g_game.g_system:getUUID() then
+		g_game.g_resourceManager:loadTextureByMsgpack(g_game.g_resourceManager:getBatchUIPath("login_ui"))
+		self.m_componentTable["fastlogin_button"]:setVisible(true)
+		local showBindPanel = function (  )
+	 		if g_game.g_panelManager:isUiPanelShow("login_choose_type") == false then
+				local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
+				g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
+				login_choose_type_panel["m_componentTable"]["lct_choose_type_title"]:setString("選擇綁定方式")
+				-- facebook按钮
+				local facebookBtnOnClick = function()
+					send_lua_event(g_game.g_f_lua_game_event.F_LUA_EFFECT_ANNIU)
+					send_lua_event(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_FACEBOOK)
+					g_game.g_panelManager:removeUiPanel("login_choose_type")
+				end
+				login_choose_type_panel["m_componentTable"]["lct_facebook_btn"]:addHandleOfcomponentEvent(facebookBtnOnClick, g_game.g_f_touch_event.F_TOUCH_UPINSIDE)
+				
+				-- google按钮
+				local googleBtnOnClick = function()
+					send_lua_event(g_game.g_f_lua_game_event.F_LUA_EFFECT_ANNIU)
+					send_lua_event(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_GOOGLE)
+					g_game.g_panelManager:removeUiPanel("login_choose_type")
+				end
+				login_choose_type_panel["m_componentTable"]["lct_google_btn"]:addHandleOfcomponentEvent(googleBtnOnClick, g_game.g_f_touch_event.F_TOUCH_UPINSIDE)
+			end
+			-- local tmpData = {}
+			-- tmpData["result"] = 0
+			-- tmpData["account"] = "dawjdwjdadlkawjdddd"
+			-- tmpData["userid"] = g_game.g_userInfoManager:getUserAccount()
+			-- self:bindAccountCallBack(tmpData)
+	 	end
+	 	self.m_componentTable["fastlogin_button"]:addHandleOfcomponentEvent(showBindPanel, g_game.g_f_touch_event.F_TOUCH_UPINSIDE )
+		
+
+	    local function bindCallBack( paramTable )
+	    	local function delayLoginCallback (  )
+	    		send_lua_event(g_game.g_f_lua_game_event.F_LUA_CLOSE_NETWORK_LOADING)
+	    		self:bindAccountCallBack(paramTable)
+	    	end
+	    	g_game.g_scheduler.performWithDelayGlobal(delayLoginCallback, 1.0)
+	    	
+	    end
+	    g_game.g_eventManager:registerLuaEvent(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, bindCallBack)
+
+	    local function bindAccountSuccess(  )
+	    	self:bindSuccess()
+		end
+		g_game.g_eventManager:registerLuaEvent(g_game.g_f_lua_game_event.F_SDK_BIND_ACCOUNT, bindAccountSuccess)
+	end
+ 	
+end
+
+-- 帐号绑定返回
+function f_game_settings:bindAccountCallBack( paramTable )
+	
+	if paramTable["result"] == 0 then
+		self.m_user_account = paramTable["account"]		
+		self.m_user_uuid = paramTable["userid"]	
+		-- self:setLoginAccount(self.m_user_account, self.m_user_uuid)
+		local dataT = {}
+		dataT["account"] = paramTable["account"]
+		dataT["channel"] = DEBUG_SDK_TYPE
+		dataT["id"] 	 = paramTable["userid"]
+		self.tmpAccount = paramTable
+		g_game.g_netManager:send_message(g_network_message_type.CS_BIND_ACCOUNT, dataT)
+		send_lua_event(g_game.g_f_lua_game_event.F_LUA_NETWORK_LOADING)
+
+	elseif paramTable["result"] == g_game.g_f_lua_game_event.F_LUA_SDK_USER_NEED_LOGIN then
+		self.m_user_account = ""		
+		self.m_user_uuid = ""	
+		g_game.g_utilManager:showUserHaventLogin(paramTable["error_des"])
+	elseif paramTable["result"] == g_game.g_f_lua_game_event.F_LUA_SDK_USER_ACCESS_FAILED then
+		self.m_user_account = ""		
+		self.m_user_uuid = ""	
+		g_game.g_utilManager:showUserHaventLogin(paramTable["error_des"])	
+	else
+		self.m_user_account = ""		
+		self.m_user_uuid = ""	
+		send_lua_event(g_game.g_f_lua_game_event.F_LUA_ERROR_CANNOT_CONNECT)
+		send_lua_event(g_game.g_f_lua_game_event.F_LUA_CLOSE_NETWORK_LOADING)
+	end
+end
+--  綁定成功更新本地數據
+function f_game_settings:bindSuccess(  )
+	local account = self.tmpAccount["account"]
+	g_game.g_dataManager:saveUserInfo(account)
+	g_game.g_userInfoManager:saveUserAccount(account)
 end
 
 function f_game_settings:setSound()

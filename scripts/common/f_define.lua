@@ -182,7 +182,7 @@ g_game.g_f_lua_game_event.F_IAP_BUY_ITEM				  = 153 --正常流程购买产品
 g_game.g_f_lua_game_event.F_IAP_BUY_ITEM_NO_NORMAL		  = 154 --第一次购买验证失败，非正常流程购买产品
 g_game.g_f_lua_game_event.F_IAP_BUY_ITEM_RESULT			  = 155 --购买物品结果
 g_game.g_f_lua_game_event.F_IAP_CHECK_NATIVE_PAY		  = 156 --检查本地失败订单
-
+g_game.g_f_lua_game_event.F_SDK_BIND_ACCOUNT		  	  = 157 --綁定賬戶
 
 --公告
 g_game.g_f_lua_game_event.F_LUA_RECEIVE_GONG_GAO		  = 200  --收到公告列表
