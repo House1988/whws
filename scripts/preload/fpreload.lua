@@ -1,6 +1,6 @@
 require("scripts.netdefine.message_type")
 require("scripts.common.f_define")
-
+require("scripts.common.lang")
 
 g_game.g_director = cc.Director:getInstance()
 

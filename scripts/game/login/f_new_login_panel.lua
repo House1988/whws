@@ -52,9 +52,24 @@ function f_new_login_panel:layout_in_parent()
 	-- 显示选择登录面板
 	self.event_showChooseTypePanel = function()
 		if g_game.g_panelManager:isUiPanelShow("login_choose_type") == false then
-			local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
-			login_choose_type_panel:showFastLoginBtn()
-			g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
+			
+
+			if g_game.g_dataManager:getUserLastLoginType() == 999 then
+				local udid = g_game.g_system:getUUID()	
+				local loginResult = 
+				{
+					["result"] = 0, 
+					["account"] = DEBUG_SDK_TYPE.."_"..udid, 
+					["error_des"] = "",	
+					["userid"] = DEBUG_SDK_TYPE.."_"..udid,
+					["isFastLogin"] = true
+				}
+				send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
+			else
+				local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
+				login_choose_type_panel:showFastLoginBtn()
+				g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
+			end
 		end
 	end
 	g_game.g_eventManager:registerLuaEvent(g_game.g_f_lua_game_event.F_LUA_SDK_SHOW_LOGIN_CHOOSE_PANEL, self.event_showChooseTypePanel)
@@ -394,7 +409,10 @@ function f_new_login_panel:userLogin()
 		g_game.g_dataManager:initNativeFile(dataT["account"])
 		g_game.g_dataManager:saveUserInfo(dataT["account"])
 	end
-	
+	-- 如果是快速登录 则设置loginType = 999
+	if dataT["account"] == DEBUG_SDK_TYPE.."_"..g_game.g_system:getUUID() then
+		g_game.g_dataManager:setUserLastLoginType(999)
+	end
 	g_game.g_dataManager:saveCurrentServerInfo(serverInfo, dataT["account"])
 	g_game.g_userInfoManager:saveUserAccount(dataT["account"])
 	
