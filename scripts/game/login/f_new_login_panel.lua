@@ -53,23 +53,9 @@ function f_new_login_panel:layout_in_parent()
 	self.event_showChooseTypePanel = function()
 		if g_game.g_panelManager:isUiPanelShow("login_choose_type") == false then
 			
-
-			if g_game.g_dataManager:getUserLastLoginType() == 999 then
-				local udid = g_game.g_system:getUUID()	
-				local loginResult = 
-				{
-					["result"] = 0, 
-					["account"] = DEBUG_SDK_TYPE.."_"..udid, 
-					["error_des"] = "",	
-					["userid"] = DEBUG_SDK_TYPE.."_"..udid,
-					["isFastLogin"] = true
-				}
-				send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
-			else
-				local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
-				login_choose_type_panel:showFastLoginBtn()
-				g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
-			end
+			local login_choose_type_panel = f_tw_login_choose_type_panel.static_create()
+			login_choose_type_panel:showFastLoginBtn()
+			g_game.g_panelManager:showUiPanel(login_choose_type_panel,"login_choose_type")
 		end
 	end
 	g_game.g_eventManager:registerLuaEvent(g_game.g_f_lua_game_event.F_LUA_SDK_SHOW_LOGIN_CHOOSE_PANEL, self.event_showChooseTypePanel)
@@ -506,8 +492,9 @@ function f_new_login_panel:requestRoleLogin(roleName)
 	dataT["deviceSign"] = udid
 	
 	dataT["channel"] = DEBUG_SDK_TYPE
-	
-	
+	if DEBUG_SDK_TYPE == 38 or DEBUG_SDK_TYPE == 39 then
+		g_game.g_luaj.callStaticMethod("org/cocos2dx/lua/AppActivity", "trackRegist", {}, "()V")
+	end
 	dataT["account"] = self.m_user_account
 	dataT["roleName"] = roleName
 	dataT["platformId"] = self.m_user_uuid

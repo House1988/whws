@@ -136,6 +136,17 @@ function f_ios_taiwan_sdk:show_sdk_view()
 	elseif type2 == 1 then
 		self:showGooglePlusAppSdkLoginView()
 		self:setLoginWithGooglePlusCallBack(loginCallback)
+	elseif type2 == 999 then
+		local udid = g_game.g_system:getUUID()	
+		local loginResult = 
+		{
+			["result"] = 0, 
+			["account"] = DEBUG_SDK_TYPE.."_"..udid, 
+			["error_des"] = "",	
+			["userid"] = DEBUG_SDK_TYPE.."_"..udid,
+			["isFastLogin"] = true
+		}
+		send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
 	end
 end
 

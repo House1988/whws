@@ -30,6 +30,17 @@ function f_android_tw_google_sdk:ctor()
 	self.event_showLogin = function()
 		if self.lastLoginType == 1 or self.lastLoginType == 2 then
 			self:show_sdk_view(self.lastLoginType, 1)
+		elseif g_game.g_dataManager:getUserLastLoginType() == 999 then
+			local udid = g_game.g_system:getUUID()	
+			local loginResult = 
+			{
+				["result"] = 0, 
+				["account"] = DEBUG_SDK_TYPE.."_"..udid, 
+				["error_des"] = "",	
+				["userid"] = DEBUG_SDK_TYPE.."_"..udid,
+				["isFastLogin"] = true
+			}
+			send_lua_event_param(g_game.g_f_lua_game_event.F_LUA_SDK_LOGIN_CALLBACK, loginResult)
 		else
 			send_lua_event(g_game.g_f_lua_game_event.F_LUA_SDK_SHOW_LOGIN_CHOOSE_PANEL)
 		end
